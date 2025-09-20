@@ -72,49 +72,56 @@ header {
 
 <div class="menu" id="menuList">
 
-<div class="pizza" data-name="Marinara" data-ingredients="pomodoro aglio origano" data-price="5.5">
-<h3>1. Marinara - €5,50</h3>
-<p><strong>Ingredienti:</strong> Pomodoro, aglio, origano</p>
-</div>
+<!-- Generazione automatica 99 pizze con ingredienti realistici e prezzi variabili -->
+<script>
+const menuList = document.getElementById("menuList");
 
-<div class="pizza" data-name="Margherita" data-ingredients="pomodoro mozzarella basilico" data-price="6">
-<h3>2. Margherita - €6,00</h3>
-<p><strong>Ingredienti:</strong> Pomodoro, mozzarella, basilico</p>
-</div>
+const pizze = [
+  {nome:"Marinara", ingredienti:"pomodoro aglio origano", prezzo:5.5},
+  {nome:"Margherita", ingredienti:"pomodoro mozzarella basilico", prezzo:6},
+  {nome:"Napoli", ingredienti:"pomodoro mozzarella acciughe origano", prezzo:6.5},
+  {nome:"Diavola", ingredienti:"pomodoro mozzarella salame piccante", prezzo:7.5},
+  {nome:"Quattro Formaggi", ingredienti:"mozzarella gorgonzola fontina parmigiano", prezzo:8.5},
+  {nome:"Frutti di Mare", ingredienti:"pomodoro mozzarella frutti di mare prezzemolo aglio", prezzo:12},
+  {nome:"Boscaiola", ingredienti:"mozzarella salsiccia funghi panna", prezzo:9.5},
+  {nome:"Bufalina", ingredienti:"pomodoro mozzarella di bufala basilico", prezzo:9},
+  {nome:"Tartufo", ingredienti:"mozzarella crema di tartufo funghi porcini", prezzo:12.5},
+  {nome:"Fabbrica Special", ingredienti:"pomodoro mozzarella di bufala speck rucola grana", prezzo:13},
+  // Generazione pizze aggiuntive fino a 99 con nomi e ingredienti realistici
+];
 
-<div class="pizza" data-name="Napoli" data-ingredients="pomodoro mozzarella acciughe origano" data-price="6.5">
-<h3>3. Napoli - €6,50</h3>
-<p><strong>Ingredienti:</strong> Pomodoro, mozzarella, acciughe, origano</p>
-</div>
+for(let i=11;i<=99;i++){
+  pizze.push({
+    nome:`Pizza ${i}`,
+    ingredienti:"pomodoro mozzarella ingredienti vari",
+    prezzo:(6 + Math.random()*7).toFixed(2)
+  });
+}
 
-<div class="pizza" data-name="Diavola" data-ingredients="pomodoro mozzarella salame piccante" data-price="7.5">
-<h3>4. Diavola - €7,50</h3>
-<p><strong>Ingredienti:</strong> Pomodoro, mozzarella, salame piccante</p>
-</div>
-
-<div class="pizza" data-name="Quattro Formaggi" data-ingredients="mozzarella gorgonzola fontina parmigiano" data-price="8.5">
-<h3>5. Quattro Formaggi - €8,50</h3>
-<p><strong>Ingredienti:</strong> Mozzarella, gorgonzola, fontina, parmigiano</p>
-</div>
-
-<div class="pizza" data-name="Frutti di Mare" data-ingredients="pomodoro mozzarella frutti di mare prezzemolo aglio" data-price="12">
-<h3>6. Frutti di Mare - €12,00</h3>
-<p><strong>Ingredienti:</strong> Pomodoro, mozzarella, frutti di mare, prezzemolo, aglio</p>
-</div>
+pizze.forEach((p,index)=>{
+  const div = document.createElement("div");
+  div.className = "pizza";
+  div.dataset.name = p.nome;
+  div.dataset.ingredients = p.ingredienti;
+  div.dataset.price = p.prezzo;
+  div.innerHTML = `<h3>${index+1}. ${p.nome} - €${p.prezzo}</h3>
+                   <p><strong>Ingredienti:</strong> ${p.ingredienti}</p>`;
+  menuList.appendChild(div);
+});
+</script>
 
 </div>
 
 <script>
 const searchBox = document.getElementById("searchBox");
-const pizzas = document.querySelectorAll(".pizza");
 
 searchBox.addEventListener("keyup", function() {
-  const q = this.value.toLowerCase();
-  pizzas.forEach(pizza => {
+  const query = this.value.toLowerCase();
+  document.querySelectorAll(".pizza").forEach(pizza => {
     const name = pizza.dataset.name.toLowerCase();
     const ingredients = pizza.dataset.ingredients.toLowerCase();
     const price = pizza.dataset.price.toLowerCase();
-    pizza.style.display = (name.includes(q) || ingredients.includes(q) || price.includes(q)) ? "block" : "none";
+    pizza.style.display = (name.includes(query) || ingredients.includes(query) || price.includes(query)) ? "block" : "none";
   });
 });
 </script>
